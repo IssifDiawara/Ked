@@ -18,9 +18,8 @@ struct ContentView: View {
         .padding()
         .onAppear {
             Task {
-                try RemarkableTreeViewModel(session: Session()).onAppear()
+                try await RemarkableTreeViewModel(session: Session()).onAppear()
             }
-
         }
     }
 }

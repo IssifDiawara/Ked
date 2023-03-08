@@ -59,12 +59,9 @@
 		2B88957A29B777A300B16496 /* Ked */ = {
 			isa = PBXGroup;
 			children = (
+				2B8AA32129B8A2B000D8EB1C /* UIComponents */,
 				2B88958929B77E6B00B16496 /* Core */,
 				2B88958F29B7870B00B16496 /* Networking */,
-				2B88957B29B777A300B16496 /* KedApp.swift */,
-				2B88957D29B777A300B16496 /* ContentView.swift */,
-				2B88957F29B777A600B16496 /* Assets.xcassets */,
-				2B88958129B777A600B16496 /* Preview Content */,
 			);
 			path = Ked;
 			sourceTree = "<group>";
@@ -101,6 +98,17 @@
 				2B88959229B7879600B16496 /* Request.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		2B8AA32129B8A2B000D8EB1C /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				2B88957F29B777A600B16496 /* Assets.xcassets */,
+				2B88957D29B777A300B16496 /* ContentView.swift */,
+				2B88957B29B777A300B16496 /* KedApp.swift */,
+				2B88958129B777A600B16496 /* Preview Content */,
+			);
+			path = UIComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,7 +314,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Ked/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Ked/UIComponents/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -334,7 +342,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Ked/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Ked/UIComponents/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

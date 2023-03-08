@@ -50,7 +50,7 @@ extension Request {
         case let .remarkableTree(limit: limit):
             return [
                 URLQueryItem(name: "dataset", value: "les-arbres-remarquables-de-paris"),
-                URLQueryItem(name: "limit", value: "\(limit)"),
+                URLQueryItem(name: "rows", value: "\(limit)"),
                 URLQueryItem(name: "format", value: "json")
             ]
         }
