@@ -16,6 +16,12 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear {
+            Task {
+                try RemarkableTreeViewModel(session: Session()).onAppear()
+            }
+
+        }
     }
 }
 

@@ -11,6 +11,10 @@
 		2B88957E29B777A300B16496 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88957D29B777A300B16496 /* ContentView.swift */; };
 		2B88958029B777A600B16496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B88957F29B777A600B16496 /* Assets.xcassets */; };
 		2B88958329B777A600B16496 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B88958229B777A600B16496 /* Preview Assets.xcassets */; };
+		2B88958B29B77FDA00B16496 /* RemarkableTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88958A29B77FDA00B16496 /* RemarkableTree.swift */; };
+		2B88958E29B786FA00B16496 /* RemarkableTreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88958D29B786FA00B16496 /* RemarkableTreeViewModel.swift */; };
+		2B88959129B7873400B16496 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88959029B7873400B16496 /* Session.swift */; };
+		2B88959329B7879600B16496 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88959229B7879600B16496 /* Request.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		2B88957D29B777A300B16496 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2B88957F29B777A600B16496 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B88958229B777A600B16496 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2B88958A29B77FDA00B16496 /* RemarkableTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkableTree.swift; sourceTree = "<group>"; };
+		2B88958D29B786FA00B16496 /* RemarkableTreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkableTreeViewModel.swift; sourceTree = "<group>"; };
+		2B88959029B7873400B16496 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		2B88959229B7879600B16496 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +59,8 @@
 		2B88957A29B777A300B16496 /* Ked */ = {
 			isa = PBXGroup;
 			children = (
+				2B88958929B77E6B00B16496 /* Core */,
+				2B88958F29B7870B00B16496 /* Networking */,
 				2B88957B29B777A300B16496 /* KedApp.swift */,
 				2B88957D29B777A300B16496 /* ContentView.swift */,
 				2B88957F29B777A600B16496 /* Assets.xcassets */,
@@ -65,6 +75,32 @@
 				2B88958229B777A600B16496 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2B88958929B77E6B00B16496 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2B88958C29B786CB00B16496 /* RemarkableTree */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2B88958C29B786CB00B16496 /* RemarkableTree */ = {
+			isa = PBXGroup;
+			children = (
+				2B88958A29B77FDA00B16496 /* RemarkableTree.swift */,
+				2B88958D29B786FA00B16496 /* RemarkableTreeViewModel.swift */,
+			);
+			path = RemarkableTree;
+			sourceTree = "<group>";
+		};
+		2B88958F29B7870B00B16496 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				2B88959029B7873400B16496 /* Session.swift */,
+				2B88959229B7879600B16496 /* Request.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +173,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B88959129B7873400B16496 /* Session.swift in Sources */,
+				2B88959329B7879600B16496 /* Request.swift in Sources */,
 				2B88957E29B777A300B16496 /* ContentView.swift in Sources */,
+				2B88958B29B77FDA00B16496 /* RemarkableTree.swift in Sources */,
+				2B88958E29B786FA00B16496 /* RemarkableTreeViewModel.swift in Sources */,
 				2B88957C29B777A300B16496 /* KedApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
