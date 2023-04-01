@@ -1,5 +1,5 @@
 //
-//  KedApp.swift
+//  Root.swift
 //  Ked
 //
 //  Created by Issif DIAWARA on 07/03/2023.
@@ -8,10 +8,12 @@
 import SwiftUI
 
 @main
-struct KedApp: App {
+struct Root: App {
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView()
         }
     }
+
 }
