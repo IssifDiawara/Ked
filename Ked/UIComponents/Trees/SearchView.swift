@@ -10,11 +10,11 @@ import SwiftUI
 struct SearchView: View {
 
     var body: some View {
-        VStack(spacing: 0) {
-            MapView(
-                annotations: $viewModel.remarkableTreeCoordinate,
-                centerCoordinates: $viewModel.centerCoordinate
-            )
+        VStack {
+            mapView
+                .frame(height: 400)
+
+            Spacer()
         }
         .onAppear {
             Task {
@@ -24,5 +24,34 @@ struct SearchView: View {
     }
 
     @ObservedObject var viewModel: SearchViewModel
+
+    var mapView: some View {
+        ZStack {
+            MapView(
+                centerCoordinate: $viewModel.centerCoordinate,
+                annotations: $viewModel.annotations,
+                selectedAnnotation: $viewModel.selectedAnnotation,
+                shouldCenterAroundMe: $viewModel.shouldCenterAroundMe
+            )
+
+            centerButton
+        }
+    }
+
+    var centerButton: some View {
+        HStack {
+            Spacer()
+
+            Button(action: viewModel.centerAroundMe) {
+                Image(systemName: "location.fill")
+                    .foregroundColor(.white)
+            }
+            .frame(width: 50, height: 50)
+            .background(Color.indigo)
+            .clipShape(Circle())
+            .offset(y: 150)
+            .padding(.trailing, 24)
+        }
+    }
 
 }
