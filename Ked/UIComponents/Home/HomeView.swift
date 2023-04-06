@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  HomeView.swift
 //  Ked
 //
 //  Created by Issif DIAWARA on 03/04/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchView: View {
+struct HomeView: View {
 
     var body: some View {
         VStack {

@@ -12,7 +12,7 @@ struct Root: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView()
+            HomeView(viewModel: SearchViewModel(session: Session()))
         }
     }
 
