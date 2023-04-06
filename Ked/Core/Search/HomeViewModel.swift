@@ -1,5 +1,5 @@
 //
-//  SearchViewModel.swift
+//  HomeViewModel.swift
 //  Ked
 //
 //  Created by Issif DIAWARA on 07/03/2023.
@@ -11,7 +11,7 @@ import CoreLocation
 import MapKit
 
 @MainActor
-class SearchViewModel: ObservableObject {
+class HomeViewModel: ObservableObject {
 
     @Published var centerCoordinate: CLLocationCoordinate2D?
     @Published var annotations: [MKPointAnnotation]?
