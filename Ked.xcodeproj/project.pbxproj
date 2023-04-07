@@ -11,6 +11,8 @@
 		2B71C45D29DAE0C100157143 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B71C45C29DAE0C100157143 /* Colors.xcassets */; };
 		2B71C46129DAE4E800157143 /* RemarkableTreeCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B71C46029DAE4E800157143 /* RemarkableTreeCoordinate.swift */; };
 		2B71C46329DB14CF00157143 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B71C46229DB14CF00157143 /* HomeView.swift */; };
+		2B71C46A29E021D800157143 /* TreeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B71C46929E021D800157143 /* TreeRow.swift */; };
+		2B71C46D29E0670400157143 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B71C46C29E0670400157143 /* SubmitButton.swift */; };
 		2B88957C29B777A300B16496 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88957B29B777A300B16496 /* Root.swift */; };
 		2B88958029B777A600B16496 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B88957F29B777A600B16496 /* Assets.xcassets */; };
 		2B88958329B777A600B16496 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B88958229B777A600B16496 /* Preview Assets.xcassets */; };
@@ -25,6 +27,8 @@
 		2B71C45C29DAE0C100157143 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		2B71C46029DAE4E800157143 /* RemarkableTreeCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkableTreeCoordinate.swift; sourceTree = "<group>"; };
 		2B71C46229DB14CF00157143 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		2B71C46929E021D800157143 /* TreeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeRow.swift; sourceTree = "<group>"; };
+		2B71C46C29E0670400157143 /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
 		2B88957829B777A300B16496 /* Ked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ked.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B88957B29B777A300B16496 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		2B88957F29B777A600B16496 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 			children = (
 				2B71C45A29DADC6200157143 /* MapView.swift */,
 				2B71C46229DB14CF00157143 /* HomeView.swift */,
+				2B71C46929E021D800157143 /* TreeRow.swift */,
+				2B71C46C29E0670400157143 /* SubmitButton.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -220,9 +226,11 @@
 				2B88959129B7873400B16496 /* Session.swift in Sources */,
 				2B71C45B29DADC6200157143 /* MapView.swift in Sources */,
 				2B88959329B7879600B16496 /* Request.swift in Sources */,
+				2B71C46A29E021D800157143 /* TreeRow.swift in Sources */,
 				2B88958B29B77FDA00B16496 /* RemarkableTree.swift in Sources */,
 				2B88958E29B786FA00B16496 /* HomeViewModel.swift in Sources */,
 				2B88957C29B777A300B16496 /* Root.swift in Sources */,
+				2B71C46D29E0670400157143 /* SubmitButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
