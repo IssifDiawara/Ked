@@ -26,7 +26,7 @@ extension RemarkableTree {
         let coordinates: [Double]
         let domaniality: Domaniality
         let implementationDate: Date
-        let height: Int
+        let height: Double
 
         enum Domaniality: String, Decodable {
             case alignment = "Alignement"
@@ -52,19 +52,49 @@ extension RemarkableTree {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
-            type = try container.decode(String.self, forKey: .type)
-            specie = try container.decode(String.self, forKey: .specie)
+            type = try container.decode(String.self, forKey: .type).lowercased()
+            specie = try container.decode(String.self, forKey: .specie).lowercased()
             name = try container.decode(String.self, forKey: .name)
-            address = try container.decode(String.self, forKey: .address)
-            additionalAddress = try container.decodeIfPresent(String.self, forKey: .additionalAddress)
+            address = try container.decode(String.self, forKey: .address).capitalized
+            additionalAddress = try container.decodeIfPresent(String.self, forKey: .additionalAddress)?.capitalized
             district = try container.decode(String.self, forKey: .district)
             coordinates = try container.decode([Double].self, forKey: .coordinates)
             domaniality = try container.decode(Domaniality.self, forKey: .domniality)
             let date = try container.decode(String.self, forKey: .implementationDate)
             implementationDate = ISO8601DateFormatter().date(from: date) ?? Date()
-            height = try container.decode(Int.self, forKey: .heigth)
+            height = try container.decode(Double.self, forKey: .heigth)
         }
 
+        // PREVIEW
+        init(type: String,
+             specie: String,
+             name: String,
+             address: String,
+             additionalAddress: String? = nil,
+             district: String,
+             coordinates: [Double],
+             domaniality: RemarkableTree.Fields.Domaniality,
+             implementationDate: Date,
+             height: Double) {
+            self.type = type
+            self.specie = specie
+            self.name = name
+            self.address = address.capitalized
+            self.additionalAddress = additionalAddress?.capitalized
+            self.district = district
+            self.coordinates = coordinates
+            self.domaniality = domaniality
+            self.implementationDate = implementationDate
+            self.height = height
+        }
+    }
+
+}
+
+extension RemarkableTree: Identifiable {
+
+    var id: UUID {
+        UUID()
     }
 
 }
