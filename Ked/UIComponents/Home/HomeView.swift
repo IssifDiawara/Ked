@@ -10,11 +10,10 @@ import SwiftUI
 struct HomeView: View {
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             mapView
-                .frame(height: 400)
-
-            Spacer()
+            title
+            treeList
         }
         .onAppear {
             Task {
@@ -23,7 +22,7 @@ struct HomeView: View {
         }
     }
 
-    @ObservedObject var viewModel: SearchViewModel
+    @ObservedObject var viewModel: HomeViewModel
 
     var mapView: some View {
         ZStack {
@@ -36,6 +35,7 @@ struct HomeView: View {
 
             centerButton
         }
+        .frame(height: 400)
     }
 
     var centerButton: some View {
@@ -52,6 +52,32 @@ struct HomeView: View {
             .offset(y: 150)
             .padding(.trailing, 24)
         }
+    }
+
+    private var title: some View {
+        Text("Les arbres remarquables de Paris")
+            .font(.title)
+            .bold()
+            .padding(.horizontal, 24)
+    }
+
+    var treeList: some View {
+        ScrollView(showsIndicators: true) {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach($viewModel.treeRowViewModels, id: \.id) { treeRowViewModel in
+                    TreeRow(viewModel: treeRowViewModel.wrappedValue)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    divider
+                }
+            }
+        }
+    }
+
+    private var divider: some View {
+        Color("lightGray")
+            .frame(height: 4)
+            .frame(maxWidth: .infinity)
+            .listRowInsets(EdgeInsets())
     }
 
 }

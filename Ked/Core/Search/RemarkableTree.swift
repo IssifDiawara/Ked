@@ -17,6 +17,7 @@ extension RemarkableTree {
 
     struct Fields: Decodable {
 
+        let id: Double
         let type: String
         let specie: String
         let name: String
@@ -37,6 +38,7 @@ extension RemarkableTree {
         }
 
         enum CodingKeys: String, CodingKey {
+            case id = "objectid"
             case type = "genre"
             case specie = "espece"
             case name = "libellefrancais"
@@ -52,6 +54,7 @@ extension RemarkableTree {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
+            id = try container.decode(Double.self, forKey: .id)
             type = try container.decode(String.self, forKey: .type).lowercased()
             specie = try container.decode(String.self, forKey: .specie).lowercased()
             name = try container.decode(String.self, forKey: .name)
@@ -66,7 +69,8 @@ extension RemarkableTree {
         }
 
         // PREVIEW
-        init(type: String,
+        init(id: Double,
+             type: String,
              specie: String,
              name: String,
              address: String,
@@ -76,6 +80,7 @@ extension RemarkableTree {
              domaniality: RemarkableTree.Fields.Domaniality,
              implementationDate: Date,
              height: Double) {
+            self.id = id
             self.type = type
             self.specie = specie
             self.name = name
@@ -87,14 +92,6 @@ extension RemarkableTree {
             self.implementationDate = implementationDate
             self.height = height
         }
-    }
-
-}
-
-extension RemarkableTree: Identifiable {
-
-    var id: UUID {
-        UUID()
     }
 
 }

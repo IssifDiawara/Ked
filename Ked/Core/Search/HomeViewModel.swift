@@ -13,13 +13,15 @@ import MapKit
 @MainActor
 class HomeViewModel: ObservableObject {
 
+    @Published private var trees: [RemarkableTree] = []
+    @Published var treeRowViewModels: [TreeRowViewModel] = []
+
     @Published var centerCoordinate: CLLocationCoordinate2D?
     @Published var annotations: [MKPointAnnotation]?
     @Published var selectedAnnotation: MKPointAnnotation?
     @Published var shouldCenterAroundMe = true
-    @Published var trees: [RemarkableTree] = []
 
-    let session: Session
+    private let session: Session
 
     private var disposables: Set<AnyCancellable> = []
 
@@ -42,6 +44,8 @@ class HomeViewModel: ObservableObject {
 
                     return annotation
                 }
+
+                self?.treeRowViewModels = trees.map { TreeRowViewModel(treeFields: $0.fields) }
             }
             .store(in: &disposables)
     }

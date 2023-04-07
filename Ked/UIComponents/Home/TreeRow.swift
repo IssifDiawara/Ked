@@ -16,23 +16,24 @@ struct TreeRow: View {
             description
             moreInfoButton
         }
-        .padding(.leading, 4)
+        .padding(.vertical, 16)
+        .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    var tree: RemarkableTree
+    @ObservedObject var viewModel: TreeRowViewModel
 
     private var title: some View {
-        Text("🌴 \(tree.fields.name)")
-            .font(.title)
+        Text("🌴 \(viewModel.name)")
+            .font(.title2)
             .padding(.bottom, -4)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var address: some View {
         VStack(alignment: .leading) {
-            Text((tree.fields.additionalAddress ?? "") + " " + tree.fields.address)
-            Text(tree.fields.district.capitalized)
+            Text(viewModel.address)
+            Text(viewModel.district)
         }
         .font(.footnote)
         .opacity(0.6)
@@ -51,29 +52,28 @@ struct TreeRow: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(alignment: .center, spacing: 4) {
                 arrow
-                Text("Espèce: \(tree.fields.specie)")
+                Text("Espèce: \(viewModel.specie)")
             }
 
             HStack(alignment: .center, spacing: 4) {
                 arrow
-                Text("Genre: \(tree.fields.type)")
+                Text("Genre: \(viewModel.type)")
             }
 
             HStack(alignment: .center, spacing: 4) {
                 arrow
-                Text("Domanialité: \(tree.fields.domaniality.rawValue.lowercased())")
+                Text("Domanialité: \(viewModel.domaniality)")
             }
         }
         .font(.body)
         .padding(.horizontal, 4)
-        .padding(.vertical, 4)
+        .padding(.bottom, 8)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var moreInfoButton: some View {
-        Button("Plus d'informations") {}
+        Button("En savoir plus") {}
             .buttonStyle(SubmitButtonStyle())
-            .padding(.horizontal, 24)
     }
 
 }
@@ -81,6 +81,7 @@ struct TreeRow: View {
 struct TreeRow_Previews: PreviewProvider {
 
     static var remarkableTreeFields = RemarkableTree.Fields(
+        id: 123,
         type: "Cedrus",
         specie: "libani",
         name: "Cèdre",
@@ -93,10 +94,8 @@ struct TreeRow_Previews: PreviewProvider {
         height: 25.0
     )
 
-    static var tree = RemarkableTree(fields: remarkableTreeFields)
-
     static var previews: some View {
-        TreeRow(tree: tree)
+        TreeRow(viewModel: TreeRowViewModel(treeFields: remarkableTreeFields))
     }
 
 }
