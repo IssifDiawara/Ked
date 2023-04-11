@@ -13,7 +13,7 @@ struct SubmitButtonStyle: ButtonStyle {
         configuration.label
             .frame(height: 44)
             .frame(maxWidth: .infinity)
-            .background(Color("lightGreen").opacity(0.8))
+            .background(Color("Maroon").opacity(0.8))
             .foregroundColor(.white)
             .cornerRadius(10)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)

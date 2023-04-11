@@ -45,7 +45,7 @@ struct TreeRow: View {
         Image(systemName: "arrow.right")
             .resizable()
             .frame(width: 10, height: 10)
-            .foregroundColor(Color("lightGreen"))
+            .foregroundColor(Color("Maroon"))
     }
 
     private var description: some View {

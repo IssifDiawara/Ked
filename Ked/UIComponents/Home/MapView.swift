@@ -45,17 +45,36 @@ struct MapView: UIViewRepresentable {
         }
 
         if shouldCenterAroundMe {
-            shouldCenterAroundMe.toggle()
-            uiView.setCenter(defaultCoordinate.center, animated: true)
+            DispatchQueue.main.async {
+                shouldCenterAroundMe.toggle()
+                uiView.setCenter(defaultCoordinate.center, animated: true)
+            }
         } else {
-            let currentAnnotations = uiView.annotations.compactMap { $0 as? MKPointAnnotation }
-            uiView.removeAnnotations(currentAnnotations)
-            annotations.map(uiView.addAnnotations)
+            redrawAnnotations(in: uiView)
         }
     }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
+    }
+
+    private func redrawAnnotations(in map: MKMapView) {
+        guard let labeledPointAnnotations = annotations?.sorted(by: <) else { return }
+
+        let mapPointAnnotations = map.annotations.compactMap { $0 as? MKPointAnnotation }.sorted(by: <)
+
+        let difference = labeledPointAnnotations.difference(from: mapPointAnnotations) { $0 == $1 }
+
+        guard !difference.isEmpty else { return }
+
+        for change in difference {
+            switch change {
+            case let .remove(_, element, _):
+                map.removeAnnotation(element)
+            case let .insert(_, newElement, _):
+                map.addAnnotation(newElement)
+            }
+        }
     }
 
 }
@@ -78,7 +97,7 @@ extension MapView {
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "Tree")
-            annotationView.image = UIImage(systemName: "tree.circle.fill")
+            annotationView.image = UIImage(named: "Tree")
             return annotationView
         }
 
@@ -99,6 +118,18 @@ extension MapView {
 
         func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
             view.frame.size = CGSize(width: view.frame.size.width * 2 / 3 , height: view.frame.size.height * 2 / 3)
+        }
+    }
+
+}
+
+extension MKPointAnnotation: Comparable {
+
+    public static func < (lhs: MKPointAnnotation, rhs: MKPointAnnotation) -> Bool {
+        if lhs.coordinate.latitude != rhs.coordinate.latitude {
+            return lhs.coordinate.latitude < rhs.coordinate.latitude
+        } else {
+            return lhs.coordinate.longitude < rhs.coordinate.longitude
         }
     }
 
