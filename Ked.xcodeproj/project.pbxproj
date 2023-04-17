@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B6EFA3B29E5A9DF006351D9 /* Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6EFA3A29E5A9DF006351D9 /* Unwrap.swift */; };
 		2B71C45B29DADC6200157143 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B71C45A29DADC6200157143 /* MapView.swift */; };
 		2B71C45D29DAE0C100157143 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B71C45C29DAE0C100157143 /* Colors.xcassets */; };
 		2B71C46129DAE4E800157143 /* RemarkableTreeCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B71C46029DAE4E800157143 /* RemarkableTreeCoordinate.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B6EFA3A29E5A9DF006351D9 /* Unwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unwrap.swift; sourceTree = "<group>"; };
 		2B71C45A29DADC6200157143 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2B71C45C29DAE0C100157143 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		2B71C46029DAE4E800157143 /* RemarkableTreeCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkableTreeCoordinate.swift; sourceTree = "<group>"; };
@@ -52,6 +54,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B6EFA3929E5A9C4006351D9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				2B6EFA3A29E5A9DF006351D9 /* Unwrap.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		2B71C45829DADBF900157143 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +155,7 @@
 		2B8AA32129B8A2B000D8EB1C /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				2B6EFA3929E5A9C4006351D9 /* Utils */,
 				2B88958129B777A600B16496 /* Preview Content */,
 				2B71C45829DADBF900157143 /* Resources */,
 				2B71C45F29DAE4C600157143 /* Root */,
@@ -224,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B6EFA3B29E5A9DF006351D9 /* Unwrap.swift in Sources */,
 				2B71C46329DB14CF00157143 /* HomeView.swift in Sources */,
 				2B71C46129DAE4E800157143 /* RemarkableTreeCoordinate.swift in Sources */,
 				2B88959129B7873400B16496 /* Session.swift in Sources */,
