@@ -12,8 +12,13 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             mapView
-            title
-            treeList
+
+            if viewModel.focusedTreeViewModel == nil {
+                title
+                treeList
+            } else {
+                focusedTree
+            }
         }
         .onAppear {
             Task {
@@ -21,8 +26,6 @@ struct HomeView: View {
             }
         }
     }
-
-    @ObservedObject var viewModel: HomeViewModel
 
     var mapView: some View {
         ZStack {
@@ -42,7 +45,7 @@ struct HomeView: View {
         HStack {
             Spacer()
 
-            Button(action: viewModel.centerAroundMe) {
+            Button { viewModel.centerAroundMe() } label: {
                 Image(systemName: "location.fill")
                     .foregroundColor(.white)
             }
@@ -78,6 +81,16 @@ struct HomeView: View {
             .frame(height: 4)
             .frame(maxWidth: .infinity)
             .listRowInsets(EdgeInsets())
+    }
+
+    private var focusedTree: some View {
+        Unwrap(viewModel.focusedTreeViewModel, content: TreeRow.init(viewModel:))
+    }
+
+    @StateObject private var viewModel: HomeViewModel
+
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct RemarkableTree: Decodable {
 
@@ -24,7 +25,7 @@ extension RemarkableTree {
         let address: String
         let additionalAddress: String?
         let district: String
-        let coordinates: [Double]
+        let coordinate: CLLocationCoordinate2D
         let domaniality: Domaniality
         let implementationDate: Date
         let height: Double
@@ -45,7 +46,7 @@ extension RemarkableTree {
             case address = "adresse"
             case additionalAddress = "complementadresse"
             case district = "arrondissement"
-            case coordinates = "geo_point"
+            case coordinate = "geo_point"
             case domniality = "domanialite"
             case implementationDate = "dateplantation"
             case heigth = "hauteur_en_m"
@@ -61,11 +62,14 @@ extension RemarkableTree {
             address = try container.decode(String.self, forKey: .address).capitalized
             additionalAddress = try container.decodeIfPresent(String.self, forKey: .additionalAddress)?.capitalized
             district = try container.decode(String.self, forKey: .district)
-            coordinates = try container.decode([Double].self, forKey: .coordinates)
             domaniality = try container.decode(Domaniality.self, forKey: .domniality)
+            height = try container.decode(Double.self, forKey: .heigth)
+
+            let geoPoint = try container.decode([Double].self, forKey: .coordinate)
+            coordinate = CLLocationCoordinate2D(latitude: geoPoint[0], longitude: geoPoint[1])
+
             let date = try container.decode(String.self, forKey: .implementationDate)
             implementationDate = ISO8601DateFormatter().date(from: date) ?? Date()
-            height = try container.decode(Double.self, forKey: .heigth)
         }
 
         // PREVIEW
@@ -76,7 +80,7 @@ extension RemarkableTree {
              address: String,
              additionalAddress: String? = nil,
              district: String,
-             coordinates: [Double],
+             coordinate: CLLocationCoordinate2D,
              domaniality: RemarkableTree.Fields.Domaniality,
              implementationDate: Date,
              height: Double) {
@@ -87,11 +91,18 @@ extension RemarkableTree {
             self.address = address.capitalized
             self.additionalAddress = additionalAddress?.capitalized
             self.district = district
-            self.coordinates = coordinates
+            self.coordinate = coordinate
             self.domaniality = domaniality
             self.implementationDate = implementationDate
             self.height = height
         }
     }
+
+}
+
+struct Coordinate {
+
+    let latitude: Double
+    let longitude: Double
 
 }

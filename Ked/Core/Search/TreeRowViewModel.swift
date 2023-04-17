@@ -9,6 +9,8 @@ import Foundation
 
 class TreeRowViewModel: ObservableObject {
 
+    @Published private(set) var isSelected = false
+
     var name: String {
         treeFields.name
     }
@@ -35,8 +37,13 @@ class TreeRowViewModel: ObservableObject {
 
     private let treeFields: RemarkableTree.Fields
 
-    init(treeFields: RemarkableTree.Fields) {
+    init(treeFields: RemarkableTree.Fields, isSelected: Bool = false) {
         self.treeFields = treeFields
+        self.isSelected = isSelected
+    }
+
+    func close() {
+        isSelected = false
     }
 
 }

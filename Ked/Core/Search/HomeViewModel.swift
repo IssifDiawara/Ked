@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
 
     @Published private var trees: [RemarkableTree] = []
     @Published var treeRowViewModels: [TreeRowViewModel] = []
+    @Published var focusedTreeViewModel: TreeRowViewModel?
 
     @Published var centerCoordinate: CLLocationCoordinate2D?
     @Published var annotations: [MKPointAnnotation]?
@@ -29,34 +30,67 @@ class HomeViewModel: ObservableObject {
         self.session = session
 
         treesBinding()
+        selectedAnnotationBinding()
     }
 
     private func treesBinding() {
         $trees
             .filter { !$0.isEmpty }
             .sink { [weak self] trees in
-                self?.annotations = trees.map { tree in
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2D(
-                        latitude: tree.fields.coordinates[0],
-                        longitude: tree.fields.coordinates[1]
-                    )
-
-                    return annotation
+                let coordinates = trees.map(\.fields.coordinate)
+                self?.annotations = coordinates.map {
+                    let pointAnnotation = MKPointAnnotation()
+                    pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
+                    return pointAnnotation
                 }
+            }
+            .store(in: &disposables)
 
-                self?.treeRowViewModels = trees.map { TreeRowViewModel(treeFields: $0.fields) }
+        $trees
+            .filter { !$0.isEmpty }
+            .sink { [weak self] trees in
+                self?.treeRowViewModels = trees.map {
+                    TreeRowViewModel(treeFields: $0.fields)
+                }
+            }
+            .store(in: &disposables)
+    }
+
+    private func focusedTreeViewModelBinding() {
+        focusedTreeViewModel?.$isSelected
+            .filter { !$0 }
+            .sink { [weak self] viewModel in
+                self?.selectedAnnotation = nil
+                self?.focusedTreeViewModel = nil
+            }
+            .store(in: &disposables)
+    }
+
+    private func selectedAnnotationBinding() {
+        $selectedAnnotation
+            .compactMap { $0 }
+            .sink { [weak self] annotation in
+                let focusedTree = self?.trees.first(where: { $0.fields.coordinate == annotation.coordinate })
+
+                guard let focusedTree else { return }
+                self?.focusedTreeViewModel = TreeRowViewModel(treeFields: focusedTree.fields, isSelected: true)
+
+                self?.focusedTreeViewModelBinding()
             }
             .store(in: &disposables)
     }
 
     func fetchTrees() async throws {
-        let request: Request = .remarkableTree(limit: 20)
+        let request: Request = .remarkableTree(limit: 50)
         trees = try await session.loadItems(for: request)
     }
 
     func centerAroundMe() {
         shouldCenterAroundMe.toggle()
+    }
+
+    func deselectTree() {
+        focusedTreeViewModel = nil
     }
 
 }

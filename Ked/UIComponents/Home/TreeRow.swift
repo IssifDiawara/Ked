@@ -14,14 +14,12 @@ struct TreeRow: View {
             title
             address
             description
-            moreInfoButton
+            submitButton
         }
         .padding(.vertical, 16)
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-
-    @ObservedObject var viewModel: TreeRowViewModel
 
     private var title: some View {
         Text("🌴 \(viewModel.name)")
@@ -71,12 +69,39 @@ struct TreeRow: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+
+    @ViewBuilder
+    private var submitButton: some View {
+        if viewModel.isSelected {
+            HStack(alignment: .center, spacing: 4) {
+                moreInfoButton
+                Spacer()
+                closeButton
+            }
+        } else {
+            moreInfoButton
+        }
+    }
+
     private var moreInfoButton: some View {
         Button("En savoir plus") {}
-            .buttonStyle(SubmitButtonStyle())
+            .buttonStyle(SubmitButtonStyle(.more))
+    }
+
+    private var closeButton: some View {
+        Button("Fermer", action: viewModel.close)
+            .buttonStyle(SubmitButtonStyle(.close))
+    }
+
+    @ObservedObject private var viewModel: TreeRowViewModel
+
+    init(viewModel: TreeRowViewModel) {
+        self.viewModel = viewModel
     }
 
 }
+
+import CoreLocation
 
 struct TreeRow_Previews: PreviewProvider {
 
@@ -88,7 +113,7 @@ struct TreeRow_Previews: PreviewProvider {
         address: "GRANDE CASCADE - CARREFOUR DE LONGCHAMP",
         additionalAddress: "16-19",
         district: "BOIS DE BOULOGNE",
-        coordinates: [48.8633907267, 2.24048112696],
+        coordinate: CLLocationCoordinate2D(latitude: 48.8633907267, longitude: 2.24048112696),
         domaniality: .garden,
         implementationDate: Date(),
         height: 25.0
