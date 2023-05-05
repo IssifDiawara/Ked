@@ -7,9 +7,21 @@ class TreeDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
-        body: Text("TreeDetailView"),
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text('${treeRecord.fields?.domination}'),
+              Text('${treeRecord.fields?.type}'),
+              Text('${treeRecord.fields?.species}'),
+              Text('${treeRecord.fields?.frenchLabel}'),
+              Text('${treeRecord.fields?.address}'),
+              Text('${treeRecord.geometry?.coordinates}'),
+            ],
+          ),
+        ),
       ),
     );
   }

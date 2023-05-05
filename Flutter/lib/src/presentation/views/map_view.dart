@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:get/get.dart';
 import 'package:green_it/src/core/utils/convert_data_to_markers.dart';
-import 'package:green_it/src/core/utils/extensions.dart';
-import 'package:green_it/src/domain/blocs/geo_location/geo_location_cubit.dart';
+import 'package:green_it/src/di/global_dependencies.dart';
+import 'package:green_it/src/domain/blocs/geo_location/geo_location.dart';
 import 'package:green_it/src/domain/blocs/trees/trees_cubit.dart';
 import 'package:green_it/src/domain/models/trees_model.dart';
 import 'package:green_it/src/presentation/views/tree_detail_view.dart';
@@ -23,21 +24,14 @@ class _MapViewState extends State<MapView> {
   MapController mapController = MapController();
   late MapOptions mapOptions;
   final PanelController _panelController = PanelController();
+  final GeoLocation geoLocation = getIt<GeoLocation>();
 
   @override
   void initState() {
     super.initState();
-    final GeoLocationCubit geoLocationCubit = BlocProvider.of<GeoLocationCubit>(context);
 
     final LatLng parisCoordinates = LatLng(48.866667, 2.333333);
-    mapOptions = MapOptions(center: parisCoordinates, zoom: 12, maxZoom: 15);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      geoLocationCubit.stream.listen((event) {
-        print("event");
-        print(event);
-      });
-    });
+    mapOptions = MapOptions(center: parisCoordinates, zoom: 12, maxZoom: 17);
   }
 
   @override
@@ -45,8 +39,9 @@ class _MapViewState extends State<MapView> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<GeoLocationCubit>().getCurrentLocation();
+        onPressed: () async {
+          final position = await geoLocation.getCurrentLocation();
+          mapController.move(LatLng(position.latitude, position.longitude), mapController.zoom);
         },
         mini: true,
         backgroundColor: Colors.white,
@@ -67,7 +62,12 @@ class _MapViewState extends State<MapView> {
           } else if (state is LoadedState) {
             List<Marker> markers = [];
             if (state.trees.records?.isNotEmpty == true) {
-              markers = convertDataToMarkers(state.trees.records!);
+              markers = convertDataToMarkers(
+                data: state.trees.records!,
+                onTap: (Record treeRecord) {
+                  Get.to(TreeDetailView(treeRecord: treeRecord));
+                },
+              );
             }
             return FlutterMap(
               options: mapOptions,
@@ -100,7 +100,7 @@ class _MapViewState extends State<MapView> {
             return const SizedBox.shrink();
           }
         }),
-        header: Container(
+        /* header: Container(
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -109,8 +109,13 @@ class _MapViewState extends State<MapView> {
               style: Theme.of(context).textTheme.displayLarge,
             ),
           ),
+        ),*/
+        panelBuilder: (scrollController) => BottomSheetPanel(
+          scrollController: scrollController,
+          onLocationClicked: (LatLng position) {
+            mapController.move(position, mapController.zoom + 4);
+          },
         ),
-        panelBuilder: (scrollController) => BottomSheetPanel(scrollController: scrollController),
         panelSnapping: true,
         defaultPanelState: PanelState.OPEN,
         controller: _panelController,
@@ -121,7 +126,8 @@ class _MapViewState extends State<MapView> {
 
 class BottomSheetPanel extends StatelessWidget {
   final ScrollController scrollController;
-  const BottomSheetPanel({required this.scrollController, Key? key}) : super(key: key);
+  final Function(LatLng position)? onLocationClicked;
+  const BottomSheetPanel({required this.scrollController, this.onLocationClicked, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +137,8 @@ class BottomSheetPanel extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             controller: scrollController,
             itemBuilder: (context, index) {
-              final Field treeField = state.trees.records!.elementAt(index).fields!;
+              final Record treeRecord = state.trees.records!.elementAt(index);
+              final Field treeField = treeRecord.fields!;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -141,26 +148,36 @@ class BottomSheetPanel extends StatelessWidget {
                       Image.asset('assets/images/tree.png', width: 28),
                       const SizedBox(width: 8),
                       Flexible(
-                        child: Text(treeField.frenchLabel?.capitalize() ?? '',
-                            style: Theme.of(context).textTheme.titleLarge),
+                        child: Text(
+                          treeField.frenchLabel?.capitalize ?? '',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, bottom: 16),
-                    child: Row(
-                      children: [
-                        Icon(Icons.pin_drop, color: Theme.of(context).colorScheme.onBackground, size: 20),
-                        const SizedBox(width: 4),
-                        Flexible(
-                          child: Text(
-                            treeField.address?.toLowerCase().capitalize() ?? '',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.outline,
-                                ),
+                  GestureDetector(
+                    onTap: () {
+                      if (treeRecord.geometry?.coordinates?.isEmpty == true) return;
+                      onLocationClicked?.call(
+                        LatLng(treeRecord.geometry!.coordinates!.last, treeRecord.geometry!.coordinates!.first),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 16),
+                      child: Row(
+                        children: [
+                          Icon(Icons.pin_drop, color: Theme.of(context).colorScheme.onBackground, size: 20),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              treeField.address?.toLowerCase().capitalize ?? '',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.outline,
+                                  ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -169,7 +186,7 @@ class BottomSheetPanel extends StatelessWidget {
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          'Espèce: ${treeField.species?.capitalize() ?? ''}',
+                          '${'species'.tr}: ${treeField.species?.capitalize ?? ''}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -182,7 +199,7 @@ class BottomSheetPanel extends StatelessWidget {
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          'Genre: ${treeField.type?.capitalize() ?? ''}',
+                          '${'type'.tr}: ${treeField.type?.capitalize ?? ''}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -195,7 +212,7 @@ class BottomSheetPanel extends StatelessWidget {
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          'Dominalité: ${treeField.domination?.capitalize() ?? ''}',
+                          '${'dominance'.tr}: ${treeField.domination?.capitalize ?? ''}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -207,15 +224,11 @@ class BottomSheetPanel extends StatelessWidget {
                       width: double.infinity,
                       height: 48,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      TreeDetailView(treeRecord: state.trees.records!.elementAt(index))));
+                        onPressed: () {
+                          Get.to(TreeDetailView(treeRecord: state.trees.records!.elementAt(index)));
                         },
                         child: Text(
-                          'En savoir plus',
+                          'find_out_more'.tr,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),
                         ),
                       ),

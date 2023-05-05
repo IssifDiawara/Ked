@@ -1,15 +1,16 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class GeoLocationCubit extends Cubit<Position?> {
-  GeoLocationCubit() : super(null) {
+class GeoLocation {
+  GeoLocation() {
     askPermission();
   }
 
   askPermission() async {
-    bool serviceEnabled;
+    late final bool serviceEnabled;
     LocationPermission permission;
 
     // Test if location services are enabled.
@@ -38,10 +39,10 @@ class GeoLocationCubit extends Cubit<Position?> {
       // Permissions are denied forever, handle appropriately.
       return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
-    getCurrentLocation();
+    // getCurrentLocation();
   }
 
-  Stream<Position> getCurrentLocation() async* {
-    yield await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  Future<Position> getCurrentLocation() async {
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 }

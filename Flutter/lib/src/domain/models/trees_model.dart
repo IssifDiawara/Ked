@@ -44,7 +44,17 @@ class Field {
   @JsonKey(name: 'libellefrancais')
   String? frenchLabel;
 
-  Field(this.type, this.species, this.domination, this.address, this.frenchLabel);
+  @JsonKey(name: ' hauteur_en_m')
+  String? height;
+
+  Field(
+    this.type,
+    this.species,
+    this.domination,
+    this.address,
+    this.frenchLabel,
+    this.height,
+  );
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 

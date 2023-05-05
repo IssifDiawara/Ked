@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:green_it/src/domain/models/trees_model.dart';
-import 'package:green_it/src/presentation/views/tree_detail_view.dart';
 import 'package:latlong2/latlong.dart';
 
-List<Marker> convertDataToMarkers(List<Record> data) {
+List<Marker> convertDataToMarkers({required List<Record> data, required Function(Record treeRecord) onTap}) {
   List<Marker> markers = [];
   for (Record record in data) {
     final double? latitude = record.geometry?.coordinates?.first;
@@ -14,9 +13,7 @@ List<Marker> convertDataToMarkers(List<Record> data) {
     markers.add(Marker(
       point: point,
       builder: (context) => GestureDetector(
-        onTap: () async {
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => TreeDetailView(treeRecord: record)));
-        },
+        onTap: () => onTap(record),
         child: Image.asset('assets/images/tree.png'),
       ),
     ));

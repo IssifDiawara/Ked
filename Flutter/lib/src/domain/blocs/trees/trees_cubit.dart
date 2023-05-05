@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:green_it/src/domain/blocs/geo_location/geo_location_cubit.dart';
 import 'package:green_it/src/domain/models/trees_model.dart';
 import 'package:green_it/src/domain/repositories/trees_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -33,9 +32,8 @@ class ErrorState extends TreeState {
 
 @injectable
 class TreesCubit extends Cubit<TreeState> {
-  final GeoLocationCubit _geoLocation;
   final TreesRepository _treesRepository;
-  TreesCubit(this._treesRepository, @factoryParam this._geoLocation) : super(InitialState()) {
+  TreesCubit(this._treesRepository) : super(InitialState()) {
     getTreesInParis();
   }
 
@@ -44,7 +42,6 @@ class TreesCubit extends Cubit<TreeState> {
       emit(LoadingState());
       final DataSet trees = await _treesRepository.getTreesInParis();
       emit(LoadedState(trees));
-      _geoLocation.getCurrentLocation();
     } catch (e) {
       emit(ErrorState());
     }

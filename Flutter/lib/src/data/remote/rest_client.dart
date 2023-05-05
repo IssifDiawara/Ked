@@ -16,7 +16,8 @@ abstract class RestClient {
   @GET('/search')
   Future<DataSet> getDataSets(
       {@Query('dataset') String? dataSet = 'les-arbres-remarquables-de-paris',
-      @Query('format') String? format = 'json'});
+      @Query('format') String? format = 'json',
+      @Query('rows') int? rows = 100});
 }
 
 @module
