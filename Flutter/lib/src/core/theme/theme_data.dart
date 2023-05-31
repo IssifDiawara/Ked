@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 class AppTheme {
   ThemeData appThemeData() {
     return ThemeData(
+      useMaterial3: true,
       textTheme: const TextTheme(
         titleLarge: TextStyle(fontSize: 28),
         bodyLarge: TextStyle(fontSize: 18),
